@@ -1,0 +1,85 @@
+
+<html>
+<head>
+	<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+	<title>自動販売機</title>
+
+	<SCRIPT language="javascript">
+
+	function check(){
+		var latest = 0;
+		let nowMoney = Number(select.nowMoney.value);
+
+		if(document.select.money.value == "ej"){
+			alert("返却レバーが押されました");
+			alert(nowMoney + "円を返金します");
+			document.select.nowMoney.value = "0";
+			return;
+		}
+
+		if(document.select.money.value === "10"){
+			document.select.nowMoney.value = "10";
+			latest = 10;
+		} 
+		if(document.select.money.value === "50"){
+			document.select.nowMoney.value = "50";
+			latest = 50;
+		} 
+		if(document.select.money.value === "100"){
+			document.select.nowMoney.value = "100";
+			latest = 100;
+		}
+		
+
+	
+		
+		if(nowMoney + latest > 120) {
+			alert("120円を超えたので最後に入れた" + latest + "円を返金します");
+			return;
+		}
+
+		if(nowMoney + latest === 120) {
+			nowMoney += latest;
+		 	document.select.nowMoney.value = nowMoney;
+			alert("ジュースを選んでください");
+			document.select.nowMoney.value = "0";
+			return;
+		}
+		nowMoney += latest;
+		document.select.nowMoney.value = nowMoney;
+	}
+
+	</SCRIPT>
+</head>
+<body>
+	<h1>ー自動販売機でジュースを買おうー</h1>
+	<h5>100円, 50円と10円の入れられる自販機</h5>
+	<p>下記の条件で100円,50円と10円を入れられる自販機として、<br>
+条件１：入れるお金の金額と「今の金額」の合計を「今の金額」にいれる。<br>
+条件２：返却であった場合、金額を返却して(alertで示す)「今の金額」0に戻す。<br>
+条件３：120円になったら、「ジュースを選んでください」のメッセージを表示して、「今の金額」0に戻る<br>
+上記の条件を満たせば、80点。下記の条件を満たせれば、100点。<br>
+条件４：入れる金額が120円を超えたら、最後入れたお金を返却し、「今の金額」変更しない。（alertで動作を説明)<br>
+</p>
+
+	<img src="jotaisenizu.png" />
+
+	<form name="select">
+		<h3></h5>
+
+入れるお金を選んでください:
+		<select name="money">
+			<option value="--">--</option>
+			<option value="100">100</option>
+			<option value="50">50</option>
+			<option value="10">10</option>
+			<option value="ej">返金</option>
+		</select><br>
+	今の金額：<input type="text" size="3" name="nowMoney" value="0">
+
+<br>
+		<input type='button' value="入力" onClick='javascript:check()'>
+		<input type='reset' value="リセット">
+	</form>
+</body>
+</html>
