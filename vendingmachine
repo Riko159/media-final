@@ -1,85 +1,140 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-	<META http-equiv=Content-Type content="text/html; charset=shift_jis">
-	<title>自動販売機</title>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<title>自動販売機</title>
 
-	<SCRIPT language="javascript">
 
-	function check(){
-		var latest = 0;
-		let nowMoney = Number(select.nowMoney.value);
+<style>
+  body {
+      background-color: #fffaf0;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+    }
 
-		if(document.select.money.value == "ej"){
-			alert("返却レバーが押されました");
-			alert(nowMoney + "円を返金します");
-			document.select.nowMoney.value = "0";
-			return;
+  img {
+      width: 420px;
+      padding: 20px;
+    }
+
+  .money-container{
+      display: flex;
+      justify-content: space-around;
+    }
+     
+  .money{
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #ddd;
+      text-align: center;
+      line-height: 60px;
+      font-weight: bold;
+      font-size: 16px;
+      border: 2px solid #999;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+  .button-container {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;  
+      margin-top: 20px;
+   }
+
+  .insert{
+      border-radius: 5px;
+      padding: 10px 20px;
+      background-color: #ddd;
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      border: 2px solid #999;
+    }
+ 
+</style>
+<script>
+	let nowMoney = 0;
+
+	function insertMoney(value) {
+		let latest = 0;
+
+		if(value == "ej"){
+		alert("返却レバーが押されました");
+		alert(nowMoney + "円を返金します");
+		nowMoney = 0;
+		document.select.nowMoney.value = nowMoney;
+		return;
 		}
 
-		if(document.select.money.value === "10"){
-			document.select.nowMoney.value = "10";
-			latest = 10;
-		} 
-		if(document.select.money.value === "50"){
-			document.select.nowMoney.value = "50";
-			latest = 50;
-		} 
-		if(document.select.money.value === "100"){
-			document.select.nowMoney.value = "100";
-			latest = 100;
+		if(value === "100") {
+		latest = 100;
 		}
-		
+		else if(value === "50") {
+		latest = 50;
+		}
+		else if(value === "10") {
+		latest = 10;
+		}
 
-	
-		
+
+
 		if(nowMoney + latest > 120) {
-			alert("120円を超えたので最後に入れた" + latest + "円を返金します");
-			return;
+		alert("120円を超えたので最後に入れた" + latest + "円を返金します");
+		return;
 		}
 
-		if(nowMoney + latest === 120) {
-			nowMoney += latest;
-		 	document.select.nowMoney.value = nowMoney;
-			alert("ジュースを選んでください");
-			document.select.nowMoney.value = "0";
-			return;
-		}
 		nowMoney += latest;
 		document.select.nowMoney.value = nowMoney;
-	}
 
-	</SCRIPT>
+		if(nowMoney === 120) {
+		document.select.nowMoney.value = nowMoney;
+
+		setTimeout(function(){
+		alert("ジュースを選んでください");
+		nowMoney = 0;
+		document.select.nowMoney.value = nowMoney;
+		}, 1000);
+
+	}
+	
+}
+		function reset(){
+			nowMoney = 0;
+			latest = 0;
+			document.select.nowMoney.value = nowMoney;
+		}
+
+</SCRIPT>
 </head>
 <body>
-	<h1>ー自動販売機でジュースを買おうー</h1>
-	<h5>100円, 50円と10円の入れられる自販機</h5>
-	<p>下記の条件で100円,50円と10円を入れられる自販機として、<br>
-条件１：入れるお金の金額と「今の金額」の合計を「今の金額」にいれる。<br>
-条件２：返却であった場合、金額を返却して(alertで示す)「今の金額」0に戻す。<br>
-条件３：120円になったら、「ジュースを選んでください」のメッセージを表示して、「今の金額」0に戻る<br>
-上記の条件を満たせば、80点。下記の条件を満たせれば、100点。<br>
-条件４：入れる金額が120円を超えたら、最後入れたお金を返却し、「今の金額」変更しない。（alertで動作を説明)<br>
-</p>
+<center>
 
-	<img src="jotaisenizu.png" />
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNsSdULp9eUkYVsrcPGxEVJefcX9Xxf3pGgyJSW7f-t7_tckOs4gYY5DL-rT3v4NhKVidSDyk2ojczBg18z4Tycs37OCIxMW6dXbxHNhtCQDbkpY7mZRJk_tBD4mEzd0TV8rmvHo6rr3JM/s800/machine_jidouhanbaiki.png"/>
 
-	<form name="select">
-		<h3></h5>
+<form name="select">
 
-入れるお金を選んでください:
-		<select name="money">
-			<option value="--">--</option>
-			<option value="100">100</option>
-			<option value="50">50</option>
-			<option value="10">10</option>
-			<option value="ej">返金</option>
-		</select><br>
-	今の金額：<input type="text" size="3" name="nowMoney" value="0">
+
+<h3>入れるお金を選んでください</h3><br><br>
+
+<div class="money-container">
+<div class="money" onclick="insertMoney('100')">100</div>
+<div class="money" onclick="insertMoney('50')">50</div>
+<div class="money" onclick="insertMoney('10')">10</div>
+<div class="money" onclick="insertMoney('ej')">返金</div>
+</div><br>
+今の金額：<input type="text" size="3" name="nowMoney" value="0">
 
 <br>
-		<input type='button' value="入力" onClick='javascript:check()'>
-		<input type='reset' value="リセット">
-	</form>
+<div class="button-container">
+<input type='reset' class="insert" value="リセット" onclick="reset">
+</div>
+</form>
+</center>
 </body>
 </html>
